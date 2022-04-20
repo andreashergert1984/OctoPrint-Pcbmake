@@ -1,0 +1,99 @@
+
+<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
+
+<script type="importmap">
+	{
+		"imports": {
+			"three": "https://unpkg.com/three/build/three.module.js"
+		}
+	}
+</script>
+<div id="pcbmake-viewport">
+</div>
+<br /><div>
+    <ul class="nav nav-tabs">
+      <li class="active"><a data-toggle="tab" href="#general">General</a></li>
+      <li><a data-toggle="tab" href="#2sidepcb">2-Side-PCB</a></li>
+      <li><a data-toggle="tab" href="#isolationroutingfront">Isolation Routing Front</a></li>
+      <li><a data-toggle="tab" href="#isolationroutingback">Isolation Routing Back</a></li>
+      <li><a data-toggle="tab" href="#drilling">Drilling</a></li>
+      <li><a data-toggle="tab" href="#boardcutout">Board Cutout</a></li>
+    </ul>
+</div>
+{%- macro pcbmake_setting(setting, title, label, callback) -%}
+  <div title="{{ title }}" class="input-append" data-bind="visible: !_.isUndefined($data['profile.{{ setting }}']())">
+    <label for="pcbmake_input_{{ setting }}" class="control-label">{{ label }}</label>
+    {{ caller() }}
+  </div>
+{%- endmacro %}
+{%- macro pcbmake_checkbox(setting, title, label) -%}
+  {% call pcbmake_setting(setting, title, label) -%}
+    <div class="controls checkbox">
+      <input id="pcbmake_input_{{ setting }}" type="checkbox" data-bind="checked: $data['profile.{{ setting }}']"></input>
+    </div>
+  {%- endcall %}
+{%- endmacro %}
+{%- macro pcbmake_select(setting, title, label) -%}
+  {% call pcbmake_setting(setting, title, label) -%}
+    <div class="controls">
+      <select id="pcbmake_input_{{ setting }}" data-bind="options: $data.optionsForKey('{{ setting }}'), value: $data['profile.{{ setting }}'], valueAllowUnset: true"></select>
+    </div>
+  {%- endcall %}
+{%- endmacro %}
+{%- macro pcbmake_number(setting, title, label, min, max, step, add_on) -%}
+  {% call pcbmake_setting(setting, title, label) -%}
+    <div class="controls">
+      <input id="pcbmake_input_{{ setting }}" data-bind="numericValue: $data['profile.{{ setting }}']" type="number"
+             {%- if min is defined %} min="{{ min }}"{% endif -%}
+             {%- if max is defined %} max="{{ max }}"{% endif -%}
+             {%- if step is defined %} step="{{ step }}">{% endif -%}</input>
+             {%- if add_on %}
+               <span class="add-on">{{ add_on }}</span>
+             {%- endif %}
+    </div>
+  {%- endcall %}
+{%- endmacro %}
+<div class="tab-content">
+  <div id="general" class="tab-pane fade in active">
+    general
+  </div>
+  <div id="2sidepcb" class="tab-pane fade">
+    2sidepcb
+  </div>
+  <div id="isolationroutingfront" class="tab-pane fade">
+    <div class="wrapper">
+      <form class="form-horizontal">
+          <div class="row">
+              <div class="span3">
+                  {{ pcbmake_number("front_iso_cut_z", "Cut Z", "Cut Z", -10 , 0, 0.01, "mm") }}
+                  {{ pcbmake_number("front_iso_travel_z", "Travel Z", "Travel Z", 0, 20, 0.1, "mm") }}
+                  {{ pcbmake_number("front_iso_feed_rate", "Feed Rate", "Feed Rate", 0, 110, 0.1, "mm/min") }}
+                  {{ pcbmake_number("front_iso_tool_dia", "Tool Dia", "Tool Dia", 0, 10, 0.1, "mm") }}
+                  {{ pcbmake_number("front_iso_passed", "Passes", "Passes", 1, 100, 1, "") }}
+                  {{ pcbmake_number("front_iso_overlap", "Overlap", "Passes Overlap", 0, 1, 0.1, "") }}
+              </div>
+          </div>
+      </form>
+  </div>
+</div>
+  <div id="isolationroutingback" class="tab-pane fade">
+    <form class="form-horizontal">
+      <div class="row">
+          <div class="span3">
+              {{ pcbmake_number("back_iso_cut_z", "Cut Z", "Cut Z", -10 , 0, 0.01, "mm") }}
+              {{ pcbmake_number("back_iso_travel_z", "Travel Z", "Travel Z", 0, 20, 0.1, "mm") }}
+              {{ pcbmake_number("back_iso_feed_rate", "Feed Rate", "Feed Rate", 0, 110, 0.1, "mm/min") }}
+              {{ pcbmake_number("back_iso_tool_dia", "Tool Dia", "Tool Dia", 0, 10, 0.1, "mm") }}
+              {{ pcbmake_number("back_iso_passed", "Passes", "Passes", 1, 100, 1, "") }}
+              {{ pcbmake_number("back_iso_overlap", "Overlap", "Passes Overlap", 0, 1, 0.1, "") }}
+          </div>
+      </div>
+  </form>
+</div>
+  <div id="drilling" class="tab-pane fade">
+    drilling
+  </div>
+  <div id="boardcutout" class="tab-pane fade">
+    boardcutout
+  </div>
+</div>

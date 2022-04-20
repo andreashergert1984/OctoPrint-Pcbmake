@@ -1,0 +1,23 @@
+/* TODO: Have your plugin's CSS files generated to here. */
+#tab_plugin_pcbmake {
+    position: relative;
+}
+
+#pcbmake-viewport {
+    margin-bottom: -5px;
+    position: relative;
+    width: auto;
+    height: 588px;
+}
+
+#pcbmake-viewport > div {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    flex-direction: row;
+    margin: 0;
+    padding: 0;
+    z-index: 1;
+}
