@@ -11,7 +11,8 @@ from __future__ import absolute_import
 
 import octoprint.plugin
 
-class PcbmakePlugin(octoprint.plugin.StartupPlugin,octoprint.plugin.SettingsPlugin,
+class PcbmakePlugin(octoprint.plugin.StartupPlugin,
+    octoprint.plugin.SettingsPlugin,
     octoprint.plugin.AssetPlugin,
     octoprint.plugin.TemplatePlugin
 ):
@@ -33,6 +34,14 @@ class PcbmakePlugin(octoprint.plugin.StartupPlugin,octoprint.plugin.SettingsPlug
             "css": ["css/pcbmake.css"],
             "less": ["less/pcbmake.less"]
         }
+
+	##-- Image upload extenstion tree hook
+    def get_extension_tree(self, *args, **kwargs):
+        return dict(
+		    model=dict(
+				pcbmake=['gbr','drl']
+			)
+		)
 
     ##~~ Softwareupdate hook
 
@@ -75,5 +84,7 @@ def __plugin_load__():
 
     global __plugin_hooks__
     __plugin_hooks__ = {
-        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information
+        "octoprint.plugin.softwareupdate.check_config": __plugin_implementation__.get_update_information,
+        "octoprint.filemanager.extension_tree": __plugin_implementation__.get_extension_tree
+
     }

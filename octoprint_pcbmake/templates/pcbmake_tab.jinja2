@@ -1,13 +1,3 @@
-
-<script async src="https://unpkg.com/es-module-shims@1.3.6/dist/es-module-shims.js"></script>
-
-<script type="importmap">
-	{
-		"imports": {
-			"three": "https://unpkg.com/three/build/three.module.js"
-		}
-	}
-</script>
 <div id="pcbmake-viewport">
 </div>
 <br /><div>
@@ -55,8 +45,49 @@
 {%- endmacro %}
 <div class="tab-content">
   <div id="general" class="tab-pane fade in active">
-    general
-  </div>
+    <div id="slicing-settings">
+      <form class="form-vertical">
+          <div class="row">
+              <div class="span3">
+                  <div class="control-group">
+                      <label for="pcbmake_folder" class="control-label">{{ _('Projectfolder') }}</label>
+                      <div class="controls">
+                          <select id="pcbmake_folder" data-bind="options: foldersOnlyList, optionsText: 'name', optionsValue: 'key', value: slicer"></select>
+                      </div>
+                  </div>
+                  <div class="control-group">
+                      <label for="slicer_Printer_Profile" class="control-label">{{ _('Printer Profile') }}</label>
+                      <div class="controls">
+                          <select id="slicer_Printer_Profile" data-bind="options: printerProfiles.profiles.items, optionsText: 'name', optionsValue: 'id', value: printerProfile"></select>
+                      </div>
+                  </div>
+                  <div class="control-group">
+                      <label for="slicer_After_slicing" class="control-label">{{ _('After slicing...') }}</label>
+                      <div class="controls">
+                          <select id="slicer_After_slicing" data-bind="options: afterSlicingOptions, optionsText: 'text', optionsValue: 'value', value: afterSlicing"></select>
+                      </div>
+                  </div>
+              </div>
+              <div class="span3">
+                  <div class="control-group">
+                      <label for="slicer_Slicing_Profile" class="control-label">{{ _('Slicing Profile') }}</label>
+                      <div class="controls">
+                          <select id="slicer_Slicing_Profile" data-bind="options: profiles, optionsText: 'name', optionsValue: 'key', value: profile"></select>
+                      </div>
+                  </div>
+                  <div class="control-group">
+                      <label for="slicer_Output_Filename" class="control-label">{{ _('Output Filename') }}</label>
+                      <div class="controls">
+                          <div class="input-append">
+                              <input id="slicer_Output_Filename" type="text" data-bind="value: destinationFilename"></input>
+                              <span class="add-on" data-bind="text: '.' + destinationExtension()"></span>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </form>
+  </div>  </div>
   <div id="2sidepcb" class="tab-pane fade">
     2sidepcb
   </div>
